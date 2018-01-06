@@ -43,17 +43,26 @@ def main():
     matrix = setup()
     maxDown = maxLeft = maxUD = maxDD = 0
 
-    for i in range(0, 20):
-        for j in range(0, 17):
+    for i in range(0, 16):
+        for j in range(0, 20):
             downTemp = downProd(i, j, matrix)
             if downTemp > maxDown:
                 maxDown = downTemp
 
+    for i in range(0, 16):
+        for j in range(0, 16):
+            ddTemp = dDiaProd(i, j, matrix)
+            if ddTemp > maxDD:
+                maxDD = ddTemp
 
-def downProd(x, y, matrix):
+    print(max(maxDown, maxLeft, maxUD, maxDD))
 
-    return 0
 
+def downProd(y, x, matrix):
+    product = 1
+    for n in range(0, 4):
+        product *= matrix.item(y + n, x)
+    return product
 
 def leftProd():
     pass
@@ -63,8 +72,11 @@ def uDiaProd():
     pass
 
 
-def dDiaProd():
-    pass
+def dDiaProd(y, x, matrix):
+    product = 1
+    for n in range(0, 4):
+        product *= matrix.item(y + n, x + n)
+    return product
 
 
 if __name__ == '__main__': main()
