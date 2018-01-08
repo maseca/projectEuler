@@ -41,41 +41,30 @@ def setup():
 
 def main():
     matrix = setup()
-    maxDown = maxLeft = maxUD = maxDD = 0
 
-    for i in range(0, 16):
-        for j in range(0, 20):
-            downTemp = downProd(i, j, matrix)
-            if downTemp > maxDown:
-                maxDown = downTemp
+    maxDown = getMax(16, 20, matrix, 1, 0)
+    maxDD = getMax(16, 16, matrix, 1, 1)
+    maxRight = getMax(20, 16, matrix, 0, 1)
+    maxUD = getMax(16, 16, matrix, -1, 1, jMin=3)
 
-    for i in range(0, 16):
-        for j in range(0, 16):
-            ddTemp = dDiaProd(i, j, matrix)
-            if ddTemp > maxDD:
-                maxDD = ddTemp
-
-    print(max(maxDown, maxLeft, maxUD, maxDD))
+    print(maxDown, maxRight, maxDD, maxUD)
+    print(max(maxDown, maxRight, maxDD, maxUD))
 
 
-def downProd(y, x, matrix):
+def getMax(iMax, jMax, matrix, b, a, iMin=0, jMin=0):
+    maxTemp = 0
+    for i in range(iMin, iMax):
+        for j in range(jMin, jMax):
+            temp = getProduct(i, j, matrix, b, a)
+            if temp > maxTemp:
+                maxTemp = temp
+    return maxTemp
+
+
+def getProduct(y, x, matrix, b, a):
     product = 1
     for n in range(0, 4):
-        product *= matrix.item(y + n, x)
-    return product
-
-def leftProd():
-    pass
-
-
-def uDiaProd():
-    pass
-
-
-def dDiaProd(y, x, matrix):
-    product = 1
-    for n in range(0, 4):
-        product *= matrix.item(y + n, x + n)
+        product *= matrix.item(y + n*b, x + n*a)
     return product
 
 
